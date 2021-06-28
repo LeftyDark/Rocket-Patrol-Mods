@@ -79,8 +79,13 @@ class Play extends Phaser.Scene {
     //score
 
     this.gameOver = false;
-
-
+    
+    //speed up after 30 seconds 
+    this.speedTime = this.time.delayedCall(30000, () => {
+        this.ship01.speedUp = true;
+        this.ship02.speedUp = true;
+        this.ship03.speedUp = true;
+    }, null, this);
     //60 second play clock
     scoreConfig.fixedwidth = 0;
     this.clock = this.time.delayedCall(game.settings.gameTimer, () => {
