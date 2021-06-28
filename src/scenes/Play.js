@@ -23,10 +23,28 @@ class Play extends Phaser.Scene {
         this.add.rectangle(0,game.config.height - borderUISize, game.config.width, borderUISize, 0xFFFFFF).setOrigin(0,0);
         this.add.rectangle(0,0, borderUISize, game.config.height, 0xFFFFFF).setOrigin(0,0);
         this.add.rectangle(game.config.width - borderUISize,0, borderUISize, game.config.height, 0xFFFFFF).setOrigin(0,0);
-        
-        this.p1Rocket = new Rocket(this, 
-            game.config.width /2, game.config.height - (borderUISize +borderPadding), 
-            'rocket').setOrigin(0.5,0); 
+
+        keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
+        keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
+        keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
+        keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+        keyL = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.L);
+        keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+        keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+
+        if (game.settings.twoPlayer == false) {
+            this.p1Rocket = new Rocket(this, 
+            game.config.width/2, game.config.height - (borderUISize +borderPadding), 
+            'rocket', keyL, keyLEFT, keyRIGHT).setOrigin(0.5,0); 
+        } 
+        if (game.settings.twoPlayer == true) {
+            this.p1Rocket = new Rocket(this, 
+                game.config.width /3, game.config.height - (borderUISize +borderPadding), 
+                'rocket', keyL, keyLEFT, keyRIGHT).setOrigin(0.5,0); 
+            this.p2Rocket = new Rocket(this, 
+                    game.config.width* 2/3, game.config.height - (borderUISize +borderPadding), 
+                    'rocket', keyF, keyA, keyD).setOrigin(0.5,0);     
+            } 
         //please let this end the rocket so it stops eating up the next part of the code and breaking the program
         this.ship01 = new Spaceship(this, game.config.width + borderUISize*6,
            borderUISize*4, 'spaceship', 0, 30).setOrigin(0,0);
@@ -37,10 +55,7 @@ class Play extends Phaser.Scene {
         this.ship03 = new Spaceship(this, game.config.width,
             borderUISize*6 + borderPadding*4, 'spaceship', 0, 10).setOrigin(0,0);
         //end of spaceship3
-        keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
-        keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
-        keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
-        keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+        
         
         this.anims.create({key: 'explode', 
     frames: this.anims.generateFrameNumbers('explosion', {start: 0, end: 9, first: 0}), 
@@ -64,6 +79,7 @@ class Play extends Phaser.Scene {
     //score
 
     this.gameOver = false;
+
 
     //60 second play clock
     scoreConfig.fixedwidth = 0;
@@ -89,6 +105,8 @@ class Play extends Phaser.Scene {
         this.ship01.update();
         this.ship02.update();
         this.ship03.update();
+        if(game.settings.twoPlayer == true) {this.p2Rocket.update();
+        }
         }
         // check for any collisions
         if(this.checkCollision(this.p1Rocket, this.ship03)) {
@@ -105,6 +123,24 @@ class Play extends Phaser.Scene {
             console.log("Press F for ship 1")
             this.p1Rocket.reset();
             this.shipExplode(this.ship01);
+        }
+        //check for collisions with p2 ship
+        if(game.settings.twoPlayer == true) {
+            if(this.checkCollision(this.p2Rocket, this.ship03)) {
+                console.log("Press F for ship 3")
+                this.p2Rocket.reset();
+                this.shipExplode(this.ship03);
+            }
+            if(this.checkCollision(this.p2Rocket, this.ship02)) {
+                console.log("Press F for ship 2")
+                this.p2Rocket.reset();
+                this.shipExplode(this.ship02);
+            }
+            if(this.checkCollision(this.p2Rocket, this.ship01)) {
+                console.log("Press F for ship 1")
+                this.p2Rocket.reset();
+                this.shipExplode(this.ship01);
+            }
         }
     }
 
