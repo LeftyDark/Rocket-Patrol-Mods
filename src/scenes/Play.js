@@ -79,7 +79,7 @@ class Play extends Phaser.Scene {
     //score
 
     this.gameOver = false;
-    
+    this.sound.play('bgm');
     //speed up after 30 seconds 
     this.speedTime = this.time.delayedCall(30000, () => {
         this.ship01.speedUp = true;

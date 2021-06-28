@@ -9,6 +9,13 @@ class Menu extends Phaser.Scene {
         this.load.audio('sfx_select', './assets/blip_select12.wav');
         this.load.audio('sfx_explosion', './assets/explosion38.wav');
         this.load.audio('sfx_rocket', './assets/rocket_shot.wav');
+        this.load.audio('bgm', './assets/Rob Gasser - Supersonic [NCS Release].mp3')
+        /*
+        Song: Rob Gasser - Supersonic [NCS Release]
+        Music provided by NoCopyrightSounds
+        Free Download/Stream: http://ncs.io/rgsupersonic
+        Watch: http://youtu.be/TdEo002K2GQ
+        */
     }
     create() {
 
