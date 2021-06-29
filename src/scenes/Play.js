@@ -105,6 +105,7 @@ class Play extends Phaser.Scene {
         } 
         if(this.gameOver && Phaser.Input.Keyboard.JustDown(keyLEFT)){
             this.scene.start("menuScene");
+            this.sound.stopAll();
         } 
         this.starfield.tilePositionX -=  4;
         if(!this.gameOver) {
