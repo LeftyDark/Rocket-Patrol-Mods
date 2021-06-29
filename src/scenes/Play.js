@@ -74,7 +74,9 @@ class Play extends Phaser.Scene {
     //score
 
     this.gameOver = false;
-    this.sound.play('bgm');
+
+    this.sound.play('bgm'); //Plays game music
+
     //speed up after 30 seconds 
     this.speedTime = this.time.delayedCall(30000, () => {
         this.ship01.speedUp = true;
@@ -90,7 +92,10 @@ class Play extends Phaser.Scene {
         scoreConfig).setOrigin(0.5);
         this.gameOver = true;
     }, null, this);
-     }    
+    //timer
+    this.currentTime = game.settings.gameTimer/1000;
+    this.timer = this.add.text(borderUISize + borderPadding*45, borderUISize +borderPadding*2, this.currentTime, scoreConfig);
+    }    
     
     update() {
         if(this.gameOver && Phaser.Input.Keyboard.JustDown(keyR)){
@@ -106,8 +111,14 @@ class Play extends Phaser.Scene {
         this.ship01.update();
         this.ship02.update();
         this.ship03.update();
-        if(game.settings.twoPlayer == true) {this.p2Rocket.update();
+        if(game.settings.twoPlayer == true) {this.p2Rocket.update();}
+        
         }
+        //how timer runs
+        this.currentTime = game.settings.gameTimer/1000 - Math.floor(this.clock.getElapsedSeconds());
+        if (this.currentTime >= 0) {
+            this.timer.text = this.currentTime;
+            this.timer.update();
         }
         // check for any collisions
         if(this.checkCollision(this.p1Rocket, this.ship03)) {

@@ -13,3 +13,6 @@ let borderPadding = borderUISize / 3;
 
 // setting up keyboard variables
 let keyF, keyR, keyLEFT, keyRIGHT, keyDOWN, keyL, keyA, keyD;
+
+//setting up timer variable
+let currentTime;
