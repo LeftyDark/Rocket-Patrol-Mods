@@ -11,8 +11,6 @@ class Play extends Phaser.Scene {
         this.load.image('starfield', './assets/starfield.png');
         this.load.image('spark', './assets/sparkasset_20.png');
         // downloaded from https://www.subpng.com/png-q5vdlk/
-        this.load.spritesheet('explosion', './assets/explosion.png', {frameWidth: 64, 
-        frameHeight: 32, startFrame: 0, endFrame: 9});
     }
     create() {
         this.add.text(20,20,"Rocket Patrol Play");
@@ -57,11 +55,6 @@ class Play extends Phaser.Scene {
         this.ship03 = new Spaceship(this, game.config.width,
             borderUISize*6 + borderPadding*4, 'spaceship', 0, 10).setOrigin(0,0);
         //end of spaceship3
-        
-        
-        this.anims.create({key: 'explode', 
-    frames: this.anims.generateFrameNumbers('explosion', {start: 0, end: 9, first: 0}), 
-    frameRate: 30});
     
     this.p1Score = 0;
 
