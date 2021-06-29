@@ -9,6 +9,8 @@ class Play extends Phaser.Scene {
         this.load.image('rocket', './assets/rocket.png');
         this.load.image('spaceship', './assets/spaceship.png');
         this.load.image('starfield', './assets/starfield.png');
+        this.load.image('spark', './assets/sparkasset_20.png');
+        // downloaded from https://www.subpng.com/png-q5vdlk/
         this.load.spritesheet('explosion', './assets/explosion.png', {frameWidth: 64, 
         frameHeight: 32, startFrame: 0, endFrame: 9});
     }
@@ -60,7 +62,7 @@ class Play extends Phaser.Scene {
         this.anims.create({key: 'explode', 
     frames: this.anims.generateFrameNumbers('explosion', {start: 0, end: 9, first: 0}), 
     frameRate: 30});
-
+    
     this.p1Score = 0;
 
     let scoreConfig = {
@@ -160,14 +162,18 @@ class Play extends Phaser.Scene {
     }
     shipExplode(ship) {
         ship.alpha = 0; //hide sprite
-        let boom = this.add.sprite(ship.x, ship.y, 'explosion').setOrigin(0,0);
-        boom.anims.play('explode');
         this.sound.play('sfx_explosion');
-        boom.on('animationcomplete', () => {
+        //first try at particle emitter
+        let particles = this.add.particles('spark')
+        let emitter = particles.createEmitter();
+        emitter.setPosition(ship.x, ship.y);
+        emitter.setSpeed(200);
+        emitter.setBlendMode(Phaser.BlendModes.ADD);
+        this.explodeStop = this.time.delayedCall(1000, () => {
+            emitter.stop();
             ship.reset();
             ship.alpha = 1;
-            boom.destroy();
-        });
+        })
         //add score and show new score
         this.p1Score += ship.points;
         this.scoreLeft.text = this.p1Score;
