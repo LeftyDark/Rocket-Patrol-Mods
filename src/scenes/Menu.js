@@ -6,6 +6,12 @@ class Menu extends Phaser.Scene {
 
     }
     preload() {
+        this.load.image('title', './assets/title.png');
+        this.load.image('text', './assets/text.png');
+        this.load.image('rocket_clip', './assets/title_rocket.png');
+        //Downloaded from https://www.stickpng.com/img/transport/spacecraft/rocket-clipart
+        this.load.image('ship_clip', './assets/title_ship.png');
+        //Downloaded from http://clipart-library.com/clipart/XyikBXkcE.htm
         this.load.audio('sfx_select', './assets/blip_select12.wav');
         this.load.audio('sfx_explosion', './assets/explosion38.wav');
         this.load.audio('sfx_rocket', './assets/rocket_shot.wav');
@@ -31,12 +37,19 @@ class Menu extends Phaser.Scene {
             },
             fixedwidth: 0
         }
-        this.add.text(game.config.width/2, game.config.height/2 - (borderUISize + borderPadding), 'ROCKET PATROL',menuConfig).setOrigin(0.5);
-        this.add.text(game.config.width/2, game.config.height/2, 'Use ←→ to move and (L) to fire',menuConfig).setOrigin(0.5);
-        this.add.text(game.config.width/2, game.config.height/2+40, 'p2: A and D to move and (F) to fire',menuConfig).setOrigin(0.5);
+        this.add.image(game.config.width/2, game.config.height/2 - (borderUISize + borderPadding)*2, 'title');
+        this.add.image(game.config.width/2, game.config.height/2+130, 'text');
+        this.add.image(game.config.width/10, game.config.height - 60, 'rocket_clip');
+        this.add.image(game.config.width/10, game.config.height - 180, 'rocket_clip');
+        this.add.image(game.config.width/10, game.config.height - 300, 'rocket_clip');
+        this.add.image(game.config.width/10, game.config.height - 420, 'rocket_clip');
+        this.add.image(game.config.width*8.7/10, game.config.height - 60, 'ship_clip');
+        this.add.image(game.config.width*8.7/10, game.config.height - 180, 'ship_clip');
+        this.add.image(game.config.width*8.7/10, game.config.height - 300, 'ship_clip');
+        this.add.image(game.config.width*8.7/10, game.config.height - 420, 'ship_clip');
+
         menuConfig.backgroundColor = "#00FF00";
         menuConfig.color = "#000";    
-        this.add.text(game.config.width/2, game.config.height/2 + 100 + (borderUISize + borderPadding), '←: novice, →: expert, ↓: 2p.',menuConfig).setOrigin(0.5);
 
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
